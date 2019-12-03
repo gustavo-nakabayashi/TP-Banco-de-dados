@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user` (
   `lname` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`email`));
+  `password` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`userId`));
 
 CREATE TABLE IF NOT EXISTS `mydb`.`question` (
     `questionId` INT NOT NULL AUTO_INCREMENT,
@@ -19,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`question` (
     `alternativeC` VARCHAR(500) NOT NULL,
     `alternativeD` VARCHAR(500) NOT NULL,
     `categoryId` INT,
-    `userId` VARCHAR(255),
+    `userId` INT,
     PRIMARY KEY (`questionId`),
     FOREIGN KEY (`categoryId`)
         REFERENCES `mydb`.`category` (`categoryId`)
@@ -30,6 +31,19 @@ CREATE TABLE IF NOT EXISTS `mydb`.`question` (
 );
 
 
+
+CREATE TABLE IF NOT EXISTS `mydb`.`doneQuestions` (
+  `examId` INT NOT NULL,
+  `questionid` VARCHAR(255) NOT NULL,
+  `correctAnswer` BIT NOT NULL,
+  PRIMARY KEY (`examId`,`questionid`) ,
+     FOREIGN KEY (examId)REFERENCES `mydb`.`do exam` (`examId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (`questionid`)REFERENCES `mydb`.`question` (`questionid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+);
 
 CREATE TABLE IF NOT EXISTS `mydb`.`category` (
   `examId` INT NOT NULL,
@@ -52,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`doneQuestions` (
 );
 
 
-CREATE TABLE IF NOT EXISTS `mydb`.`do exam` (
+CREATE TABLE IF NOT EXISTS `mydb`.`exam` (
   `userId` VARCHAR(255) NOT NULL,
   `examId` INT NOT NULL,
   `date` VARCHAR(255) NOT NULL,

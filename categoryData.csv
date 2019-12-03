@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 1,Administração
 2,Computação
 3,Finanças
@@ -8,3 +9,15 @@
 8,Filosofia
 9,Sociologia
 10,Biologia
+=======
+1,Administração,23
+2,Computação,40
+3,Finanças,77
+4,Engenharia,220
+5,Letras,100
+6,História,133
+7,Geografia,104
+8,Filosofia,101
+9,Sociologia,68
+10,Biologia,134
+>>>>>>> fix: fixed exam table and created done questions
