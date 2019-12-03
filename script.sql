@@ -2,6 +2,7 @@ CREATE SCHEMA IF NOT EXISTS `mydb` ;
 USE `mydb` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`user` (
+  `userId` INT NOT NULL AUTO_INCREMENT,
   `fname` VARCHAR(255) NOT NULL,
   `mname` VARCHAR(255) ,
   `lname` VARCHAR(255) NOT NULL,
@@ -12,41 +13,55 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user` (
 CREATE TABLE IF NOT EXISTS `mydb`.`question` (
     `questionId` INT NOT NULL AUTO_INCREMENT,
     `answer` INT NOT NULL,
-    `question` VARCHAR(255) NOT NULL,
-    `alternativeA` VARCHAR(255) NOT NULL,
-    `alternativeB` VARCHAR(255) NOT NULL,
-    `alternativeC` VARCHAR(255) NOT NULL,
-    `alternativeD` VARCHAR(255) NOT NULL,
+    `question` VARCHAR(500) NOT NULL,
+    `alternativeA` VARCHAR(500) NOT NULL,
+    `alternativeB` VARCHAR(500) NOT NULL,
+    `alternativeC` VARCHAR(500) NOT NULL,
+    `alternativeD` VARCHAR(500) NOT NULL,
     `categoryId` INT,
-    `email` VARCHAR(255),
+    `userId` VARCHAR(255),
     PRIMARY KEY (`questionId`),
     FOREIGN KEY (`categoryId`)
         REFERENCES `mydb`.`category` (`categoryId`)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`email`)
-        REFERENCES `mydb`.`user` (`email`)
+    FOREIGN KEY (`userId`)
+        REFERENCES `mydb`.`user` (`userId`)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
 
 CREATE TABLE IF NOT EXISTS `mydb`.`category` (
+  `examId` INT NOT NULL,
+  `questionid` VARCHAR(255) NOT NULL,
+  `correctAnswer` BIT NOT NULL,
+  PRIMARY KEY (`examId`,`questionid`) ,
+     FOREIGN KEY (examId)REFERENCES `mydb`.`do exam` (`examId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (`questionid`)REFERENCES `mydb`.`question` (`questionid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+);
+
+CREATE TABLE IF NOT EXISTS `mydb`.`doneQuestions` (
   `categoryId` INT NOT NULL AUTO_INCREMENT,
   `categoryName` VARCHAR(255) NOT NULL,
-  `numberOfQuestions` INT NOT NULL,
+  `numberOfQuestions` INT,
   PRIMARY KEY (`categoryId`)  
 );
 
 
 CREATE TABLE IF NOT EXISTS `mydb`.`do exam` (
-  `email` VARCHAR(255) NOT NULL,
-  `questionId` INT NOT NULL,
+  `userId` VARCHAR(255) NOT NULL,
+  `examId` INT NOT NULL,
   `date` VARCHAR(255) NOT NULL,
   `result` INT NOT NULL,
-   PRIMARY KEY (`email`,`categoryId`),  
+   PRIMARY KEY (`userId`,`examId`),  
    FOREIGN KEY (categoryId)REFERENCES `mydb`.`category` (`categoryId`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    FOREIGN KEY (`email`)REFERENCES `mydb`.`user` (`email`)
+    FOREIGN KEY (`userId`)REFERENCES `mydb`.`user` (`userId`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
+
